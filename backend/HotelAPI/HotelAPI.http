@@ -1,0 +1,82 @@
+@HotelAPI_HostAddress = http://localhost:5164
+
+# Get all active drinks
+GET {{HotelAPI_HostAddress}}/api/drinks/
+Accept: application/json
+
+###
+
+# Get all active games
+GET {{HotelAPI_HostAddress}}/api/games/
+Accept: application/json
+
+###
+
+# Get movements by room including resets
+GET {{HotelAPI_HostAddress}}/api/movements/1?reset=true
+Accept: application/json
+
+###
+
+# Get movements by room since last reset
+GET {{HotelAPI_HostAddress}}/api/movements/1
+Accept: application/json
+
+###
+
+# Get all rooms
+GET {{HotelAPI_HostAddress}}/api/rooms
+Accept: application/json
+
+###
+
+# Reset Room 303's cash account
+POST {{HotelAPI_HostAddress}}/api/movements/reset
+Content-Type: application/json
+Accept: application/json
+
+{
+    "room": "303",
+    "userId": 1,
+    "amount": 0
+}
+
+###
+
+# Deposit $500 into Room 303's cash account
+POST {{HotelAPI_HostAddress}}/api/movements/deposit
+Content-Type: application/json
+Accept: application/json
+
+{
+    "room": "303",
+    "userId": 1,
+    "amount": 500
+}
+
+###
+
+# Extract $500 from Room 303's cash account
+POST {{HotelAPI_HostAddress}}/api/movements/extraction
+Content-Type: application/json
+Accept: application/json
+
+{
+    "room": "303",
+    "userId": 1,
+    "amount": 500
+}
+
+###
+
+# Change Room 303's password to 1234
+PUT {{HotelAPI_HostAddress}}/api/rooms/pass
+Content-Type: application/json
+Accept: application/json
+
+{
+    "room": "303",
+    "pass": "9999"
+}
+
+###

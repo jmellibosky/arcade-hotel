@@ -1,0 +1,46 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - CONNECTION_STRING=${CONNECTION_STRING}
+  
+  # arcade1:
+  #   build: ./arcade
+  #   depends_on:
+  #     - rabbitmq
+  #   environment:
+  #     - RABBITMQ_HOST=rabbitmq
+  #     - ARCADE_ID=1
+  
+  # arcade2:
+  #   build: ./arcade
+  #   depends_on:
+  #     - rabbitmq
+  #   environment:
+  #     - RABBITMQ_HOST=rabbitmq
+  #     - ARCADE_ID=2
+  
+  # arcade3:
+  #   build: ./arcade
+  #   depends_on:
+  #     - rabbitmq
+  #   environment:
+  #     - RABBITMQ_HOST=rabbitmq
+  #     - ARCADE_ID=3
+
+  # rabbitmq:
+  #   image: rabbitmq:4.0.5-management
+  #   ports:
+  #     - "1883:1883"
+  #     - "15672:15672"
+  #   environment:
+  #     RABBITMQ_MQTT_DEFAULT_USER: guest
+  #     RABBITMQ_MQTT_DEFAULT_PASS: guest
+  #   command: >
+  #     sh -c "rabbitmq-plugins enable rabbitmq_mqtt &&
+  #            rabbitmq-plugins enable rabbitmq_management &&
+  #            rabbitmq-plugins enable rabbitmq_web_mqtt"

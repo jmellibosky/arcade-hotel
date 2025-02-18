@@ -1,0 +1,27 @@
+# Archivos de usuario y temporales
+*.user
+*.suo
+*.cache
+*.csproj.user
+.vs/
+
+# Binarios y logs
+bin/
+obj/
+*.log
+
+# Publicaciones y paquetes
+*.pdb
+*.dll
+*.exe
+*.app
+*.ipa
+*.dylib
+
+# Archivos de paquetes NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Configuración local
+appsettings.Development.json
