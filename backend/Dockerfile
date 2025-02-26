@@ -24,8 +24,7 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Exponer el puerto de la API
-EXPOSE 5000
-EXPOSE 5001
+EXPOSE 15000
 
 # Comando de inicio
 ENTRYPOINT ["dotnet", "HotelAPI.dll"]

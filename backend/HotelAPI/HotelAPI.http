@@ -1,4 +1,4 @@
-@HotelAPI_HostAddress = http://localhost:5164
+@HotelAPI_HostAddress = http://localhost:15000
 
 # Get all active drinks
 GET {{HotelAPI_HostAddress}}/api/drinks/
@@ -78,5 +78,22 @@ Accept: application/json
     "room": "303",
     "pass": "9999"
 }
+
+###
+
+POST {{HotelAPI_HostAddress}}/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+    "user": "303",
+    "pass": "9999"
+}
+
+###
+
+DELETE {{HotelAPI_HostAddress}}/api/users/
+Content-Type: application/json
+Accept: application/json
 
 ###

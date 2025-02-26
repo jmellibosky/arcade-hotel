@@ -6,102 +6,74 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HotelAPI.Models;
+using StackExchange.Redis;
+using HotelAPI.Requests;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace HotelAPI.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
-    //public class UsersController : ControllerBase
-    //{
-    //    private readonly ArcadeHotelContext _context;
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UsersController : ControllerBase
+    {
+        private readonly ArcadeHotelContext _context;
+        private readonly IDatabase _redis;
 
-    //    public UsersController(ArcadeHotelContext context)
-    //    {
-    //        _context = context;
-    //    }
+        public UsersController(ArcadeHotelContext context, IConnectionMultiplexer redis)
+        {
+            _context = context;
+            _redis = redis.GetDatabase();
+        }
 
-    //    // GET: api/Users
-    //    [HttpGet]
-    //    public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-    //    {
-    //        return await _context.Users.ToListAsync();
-    //    }
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            // Recuperar el usuario desde la base de datos
+            string sessionKey;
 
-    //    // GET: api/Users/5
-    //    [HttpGet("{id}")]
-    //    public async Task<ActionResult<User>> GetUser(int id)
-    //    {
-    //        var user = await _context.Users.FindAsync(id);
+            Room? userRoom = _context.Rooms.FirstOrDefault(r => r.Name == request.User && r.Password.ToString() == request.Pass);
+            if (userRoom == null)
+            {
+                User? userUser = _context.Users.FirstOrDefault(u => u.Name == request.User && u.Password == request.Pass);
+                if (userUser == null)
+                {
+                    return Unauthorized("User not found.");
+                }
+                else
+                {
+                    sessionKey = $"user:user_{userUser.UserId}";
+                }
+            }
+            else
+            {
+                sessionKey = $"user:room_{userRoom.RoomId}";
+            }
+            
+            await _redis.StringSetAsync(sessionKey, request.User, TimeSpan.FromDays(7));
 
-    //        if (user == null)
-    //        {
-    //            return NotFound();
-    //        }
+            Response.Cookies.Append("SessionId", sessionKey, new CookieOptions
+            {
+                HttpOnly = true, // Para que la cookie no sea accesible desde JavaScript
+                Secure = true, // Solo se enviará sobre HTTPS
+                SameSite = SameSiteMode.Strict, // Evitar que la cookie sea enviada en solicitudes cruzadas
+                Expires = DateTimeOffset.UtcNow.AddDays(7)
+            });
 
-    //        return user;
-    //    }
+            return Ok(new { Message = "Session successfully authenticated." });
+        }
 
-    //    // PUT: api/Users/5
-    //    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    //    [HttpPut("{id}")]
-    //    public async Task<IActionResult> PutUser(int id, User user)
-    //    {
-    //        if (id != user.UserId)
-    //        {
-    //            return BadRequest();
-    //        }
+        [HttpDelete]
+        public async Task<IActionResult> Logout()
+        {
+            var sessionKey = Request.Cookies["SessionId"];
+            if (sessionKey == null)
+            {
+                return BadRequest("No active session.");
+            }
 
-    //        _context.Entry(user).State = EntityState.Modified;
-
-    //        try
-    //        {
-    //            await _context.SaveChangesAsync();
-    //        }
-    //        catch (DbUpdateConcurrencyException)
-    //        {
-    //            if (!UserExists(id))
-    //            {
-    //                return NotFound();
-    //            }
-    //            else
-    //            {
-    //                throw;
-    //            }
-    //        }
-
-    //        return NoContent();
-    //    }
-
-    //    // POST: api/Users
-    //    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    //    [HttpPost]
-    //    public async Task<ActionResult<User>> PostUser(User user)
-    //    {
-    //        _context.Users.Add(user);
-    //        await _context.SaveChangesAsync();
-
-    //        return CreatedAtAction("GetUser", new { id = user.UserId }, user);
-    //    }
-
-    //    // DELETE: api/Users/5
-    //    [HttpDelete("{id}")]
-    //    public async Task<IActionResult> DeleteUser(int id)
-    //    {
-    //        var user = await _context.Users.FindAsync(id);
-    //        if (user == null)
-    //        {
-    //            return NotFound();
-    //        }
-
-    //        _context.Users.Remove(user);
-    //        await _context.SaveChangesAsync();
-
-    //        return NoContent();
-    //    }
-
-    //    private bool UserExists(int id)
-    //    {
-    //        return _context.Users.Any(e => e.UserId == id);
-    //    }
-    //}
+            await _redis.KeyDeleteAsync(sessionKey);
+            return Ok(new { Message = "Session successfully closed." });
+        }
+    }
 }

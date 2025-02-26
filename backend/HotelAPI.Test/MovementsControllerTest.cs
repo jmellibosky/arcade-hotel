@@ -60,7 +60,7 @@ namespace HotelAPI.Test
 
             var result = await _controller.Reset(request);
 
-            var resultValue = Assert.IsType<CreatedAtActionResult>(result.Result);
+            var resultValue = Assert.IsType<OkObjectResult>(result.Result);
             var resultObject = Assert.IsType<Movement>(resultValue.Value);
 
             Assert.Equal((int)MovementTypes.Reset, resultObject.MovementTypeId);
@@ -134,7 +134,7 @@ namespace HotelAPI.Test
 
             var result = await _controller.Deposit(request);
 
-            var resultValue = Assert.IsType<CreatedAtActionResult>(result.Result);
+            var resultValue = Assert.IsType<OkObjectResult>(result.Result);
             var resultObject = Assert.IsType<Movement>(resultValue.Value);
 
             Assert.Equal(10, resultObject.Amount);
@@ -197,7 +197,7 @@ namespace HotelAPI.Test
 
             var result = await _controller.Extraction(request);
 
-            var resultValue = Assert.IsType<CreatedAtActionResult>(result.Result);
+            var resultValue = Assert.IsType<OkObjectResult>(result.Result);
             var resultObject = Assert.IsType<Movement>(resultValue.Value);
 
             Assert.Equal(10, resultObject.Amount);
@@ -261,7 +261,7 @@ namespace HotelAPI.Test
 
             var result = await _controller.Transaction(request);
 
-            var resultValue = Assert.IsType<CreatedAtActionResult>(result.Result);
+            var resultValue = Assert.IsType<OkObjectResult>(result.Result);
             var resultObject = Assert.IsType<Movement>(resultValue.Value);
 
             Assert.Equal(10, resultObject.Amount);
@@ -281,7 +281,7 @@ namespace HotelAPI.Test
 
             var result = await _controller.Transaction(request);
 
-            var resultValue = Assert.IsType<CreatedAtActionResult>(result.Result);
+            var resultValue = Assert.IsType<OkObjectResult>(result.Result);
             var resultObject = Assert.IsType<Movement>(resultValue.Value);
 
             Assert.Equal(10, resultObject.Amount);

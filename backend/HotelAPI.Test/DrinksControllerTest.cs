@@ -1,6 +1,7 @@
 ﻿using HotelAPI.Controllers;
 using HotelAPI.Models;
 using HotelAPI.Responses;
+using HotelAPI.Services.Implementations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,11 +18,9 @@ namespace HotelAPI.Test
 
         public DrinksControllerTest()
         {
-            _controller =
-                new DrinksController(
-                    new ArcadeHotelContext(
-                        new DbContextOptionsBuilder<ArcadeHotelContext>()
-                            .UseSqlServer("internet85").Options));
+            ArcadeHotelContext context = new ArcadeHotelContext(new DbContextOptionsBuilder<ArcadeHotelContext>().UseSqlServer("internet85").Options);
+
+            _controller = new DrinksController(new DrinksService(context));
         }
 
         [Fact]

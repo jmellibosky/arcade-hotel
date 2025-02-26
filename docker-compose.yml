@@ -2,11 +2,17 @@ services:
   backend:
     build: ./backend
     ports:
-      - "5000:5000"
-      - "5001:5001"
+      - "15000:15000"
+    depends_on:
+      - redis
     environment:
-      - RABBITMQ_HOST=rabbitmq
       - CONNECTION_STRING=${CONNECTION_STRING}
+      - REDIS_STRING=${REDIS_STRING}
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
   
   # arcade1:
   #   build: ./arcade
