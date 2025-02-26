@@ -40,5 +40,24 @@ namespace HotelAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { error = ex.Message });
             }
         }
+
+        [HttpPut]
+        [Route("pass")]
+        public async Task<IActionResult> ChangePassword([FromBody] PasswordRequest request)
+        {
+            try
+            {
+                if (request.Room.IsNullOrEmpty() || request.Pass.IsNullOrEmpty())
+                {
+                    return BadRequest("Room or Pass were empty strings");
+                }
+
+                return await _rooms.ChangePassword(request);
+            }    
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
     }
 }

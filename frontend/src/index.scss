@@ -343,8 +343,8 @@ h3 {
 }
 
 .bg-loading {
-  background-color: darken($fontColor, 20%);
-  box-shadow: 0 0 5px 2px darken($fontColor, 20%);
+  background-color: darken($fontColor, 5%);
+  box-shadow: 0 0 5px 2px darken($fontColor, 5%);
   color: $backgroundColorMid;
   display: flex;
   flex-direction: row;

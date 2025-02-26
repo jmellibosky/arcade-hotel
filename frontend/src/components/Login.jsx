@@ -1,13 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import { useSession } from "../services/useUserTasks";
 import Alert, { AlertError } from "./utils/Alert";
 import { LoadingHover } from "./utils/Loading";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../redux/loginReducer';
 
 export default function Login() {
     const navigate = useNavigate();
-    const { login, isLoading, error } = useSession();
+    const { login: loginTask, isLoading, error } = useSession();
         
     const [showAlert, setShowAlert] = useState(false);
     const [configAlert, setConfigAlert] = useState({
@@ -18,16 +19,17 @@ export default function Login() {
     const [user, setUser] = useState('')
     const [pass, setPass] = useState('')
 
+    const dispatch = useDispatch();
     const checkPassword = async () => {
         try {
-            let result = await login({room: user, pass});
+            let result = await loginTask({room: user, pass});
             if (error) {
                 throw new Error("Error al iniciar sesión.");
             } else {
-                console.log(result);
-                localStorage.setItem('login', JSON.stringify({key: result.key, name: result.name}));
+                dispatch(login(result));
+
                 if (result.type === 'admin') {
-                    navigate('/users');
+                    navigate('/users/list');
                 } else {
                     navigate('/');
                 }
@@ -37,6 +39,22 @@ export default function Login() {
             setShowAlert(true);
         }
     }
+
+    const userData = useSelector((state) => state.login.login);
+    
+    useEffect(() => {
+        console.log(userData);
+        if (userData) {
+            switch (userData.type) {
+                case 'admin':
+                    navigate('/users/list');
+                    break;
+                case 'room':
+                    navigate('/');
+                    break;
+            }
+        }
+    }, [userData]);
 
     return (
         <div className="container-fluid">   

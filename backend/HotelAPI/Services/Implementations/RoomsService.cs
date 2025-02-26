@@ -1,6 +1,8 @@
 ﻿using HotelAPI.Models;
+using HotelAPI.Requests;
 using HotelAPI.Responses;
 using HotelAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelAPI.Services.Implementations
@@ -32,6 +34,22 @@ namespace HotelAPI.Services.Implementations
                 .ToListAsync();
 
             return Response;
+        }
+
+        public async Task<IActionResult> ChangePassword(PasswordRequest request) {
+            Room? RoomToReset = await _context.Rooms
+                .FirstOrDefaultAsync(r => r.Name == request.Room);
+
+            if (RoomToReset == null)
+            {
+                return new BadRequestObjectResult("Room was not found");
+            }
+
+            RoomToReset.Password = int.Parse(request.Pass);
+
+            await _context.SaveChangesAsync();
+
+            return new OkObjectResult(RoomToReset.Name);
         }
     }
 }

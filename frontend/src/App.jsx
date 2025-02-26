@@ -1,9 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 
+import AppRoom from './AppRoom';
 import AppUser from './AppUser';
 import Login from './components/Login';
-import Users from './components/Users';
-import CashInOut from './components/CashInOut';
 import Background from './components/Background';
 
 export default function App() {
@@ -12,9 +11,8 @@ export default function App() {
     <Background />
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/users" element={<Users />} />
-      <Route path="/users/cash" element={<CashInOut />} />
-      <Route path="/*" element={<AppUser />} />
+      <Route path="/*" element={<AppRoom />} />
+      <Route path="/users/*" element={<AppUser />} />
     </Routes>
     </>
   );

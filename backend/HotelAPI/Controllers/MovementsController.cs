@@ -10,6 +10,7 @@ using HotelAPI.Responses;
 using Microsoft.IdentityModel.Tokens;
 using HotelAPI.Requests;
 using Microsoft.AspNetCore.Http.HttpResults;
+using HotelAPI.Enums;
 
 namespace HotelAPI.Controllers
 {
@@ -63,6 +64,7 @@ namespace HotelAPI.Controllers
             try
             {
                 Room? Room = await _context.Rooms
+                    .Include(r => r.LastMovement)
                     .FirstOrDefaultAsync(r => r.Name == id.ToString());
                 if (Room == null) return NotFound("Room not found.");
 
@@ -71,7 +73,9 @@ namespace HotelAPI.Controllers
                     .Include(m => m.Game)
                     .Include(m => m.Drink)
                     .Include(m => m.LastReset)
-                    .Where(m => m.RoomId == Room.RoomId && (reset || m.MovementId > m.LastReset.MovementId))
+                    .Where(m => m.RoomId == Room.RoomId 
+                        && m.MovementTypeId != (int)MovementTypes.Reset
+                        && (reset || m.LastResetId == Room.LastMovement.LastResetId))
                     .Select(m => new HistoryResponse()
                     {
                         Item = GetItemName(m),

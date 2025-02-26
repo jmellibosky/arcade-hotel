@@ -25,11 +25,11 @@ export default function Alert({ config, onClose }) {
 };
 
 export const AlertError = () => {
-    return { message: "An error has ocurred.", type: "error" }
+    return { message: "Ha ocurrido un error.", type: "error" }
 }
 
 export const AlertWarning = (message) => {
-    return { message: `Warning! ${message}`, type: "warning" }
+    return { message: `Advertencia! ${message}`, type: "warning" }
 }
 
 export const AlertSuccess = (message) => {

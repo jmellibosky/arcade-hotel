@@ -1,10 +1,12 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
+import { FaHistory } from 'react-icons/fa';
 import { FaArrowRightToBracket } from 'react-icons/fa6'
 
-import Users from './components/Users';
-import CashInOut from './components/CashInOut';
-
+import Home from './components/Home';
+import Details from './components/Details';
+import Machines from './components/Machines';
+import History from './components/History';
 import { useState, useEffect } from 'react';
 import { useSession } from './services/useUserTasks';
 import Alert, { AlertError } from "./components/utils/Alert";
@@ -13,7 +15,7 @@ import { LoadingHover } from "./components/utils/Loading";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from './redux/loginReducer';
 
-export default function AppUser() {
+export default function AppRoom() {
     const navigate = useNavigate();
     const { logout: logoutTask, isLoading, error } = useSession();
         
@@ -45,7 +47,7 @@ export default function AppUser() {
     }
 
     useEffect(() => {
-        if (!userData || (userData && userData.type !== 'admin')) {
+        if (!userData || (userData && userData.type !== 'room')) {
             navigate('/login');
         }
     }, [userData]);
@@ -55,8 +57,12 @@ export default function AppUser() {
         {userData && (
             <>
             <div id="user-info">
-                <span>{userData.name}</span>
+                <span>Habitación {userData.name}</span>
                 <div className="d-flex">
+                    <span className="user-info-item">$ {userData.balance}</span>
+                    <div className="user-info-item" onClick={() => navigate('/history')}>
+                        <FaHistory />
+                    </div>
                     <div className="user-info-item" onClick={() => onLogout()}>
                         <FaArrowRightToBracket />
                     </div>
@@ -64,8 +70,10 @@ export default function AppUser() {
             </div>
             <div className="container-fluid">
                 <Routes>
-                    <Route path="/list" element={<Users />} />
-                    <Route path="/cash" element={<CashInOut />} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="/machines" element={<Machines />} />
+                    <Route path="/details" element={<Details />} />
+                    <Route path="/history" element={<History />} />
                 </Routes>
             </div>
             </>

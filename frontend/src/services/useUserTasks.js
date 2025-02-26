@@ -1,4 +1,5 @@
 import useApiRequest from "../hooks/useApiRequest"
+import useFetchData from "../hooks/useFetchData";
 
 export function useSession() {
     const { sendRequest, isLoading, error } = useApiRequest();
@@ -16,11 +17,15 @@ export function useSession() {
         )
     }
     
-    const logout = async ({ room }) => {
+    const logout = async ({ room, key }) => {
         return await sendRequest(
             {
                 endpoint: 'users',
-                method: 'DELETE'
+                method: 'DELETE',
+                body: {
+                    user: room,
+                    key: key
+                }
             }
         )
     }
@@ -92,7 +97,7 @@ export function useCash() {
         );
     }
 
-    const processTransaction = async({ room, amount, drinkId, gameId}) => {
+    const processTransaction = async ({ room, amount, drinkId, gameId}) => {
         console.log({
             room: room,
             amount: amount,

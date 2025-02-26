@@ -33,8 +33,12 @@ namespace HotelAPI.Controllers
             string sessionKey;
             string name;
             string type;
+            double balance = 0;
 
-            Room? userRoom = _context.Rooms.FirstOrDefault(r => r.Name == request.User && r.Password.ToString() == request.Pass);
+            Room? userRoom = _context.Rooms
+                .Include(r => r.LastMovement)
+                .FirstOrDefault(r => r.Name == request.User && r.Password.ToString() == request.Pass);
+
             if (userRoom == null)
             {
                 User? userUser = _context.Users.FirstOrDefault(u => u.Name == request.User && u.Password == request.Pass);
@@ -54,6 +58,7 @@ namespace HotelAPI.Controllers
                 sessionKey = $"user:room_{userRoom.RoomId}";
                 name = userRoom.Name;
                 type = "room";
+                balance = userRoom.LastMovement != null ? userRoom.LastMovement.Balance : 0;
             }
 
             sessionKey = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(sessionKey)));
@@ -63,9 +68,9 @@ namespace HotelAPI.Controllers
 
             Response.Cookies.Append("SessionId", sessionKey, new CookieOptions
             {
-                HttpOnly = true, // Para que la cookie no sea accesible desde JavaScript
-                Secure = true, // Solo se enviará sobre HTTPS
-                SameSite = SameSiteMode.Strict, // Evitar que la cookie sea enviada en solicitudes cruzadas
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
                 Expires = DateTimeOffset.UtcNow.AddDays(7)
             });
 
@@ -73,20 +78,26 @@ namespace HotelAPI.Controllers
                 Message = "Session successfully authenticated.",
                 Key = sessionKey,
                 Name = name,
-                Type = type
+                Type = type,
+                Balance = balance
             });
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
         {
-            var sessionKey = Request.Cookies["SessionId"];
-            if (sessionKey == null)
+            RedisValue sessionKey = await _redis.StringGetAsync(request.Key);
+
+            if (!sessionKey.HasValue)
             {
                 return BadRequest("No active session.");
             }
 
-            await _redis.KeyDeleteAsync(sessionKey);
+            if (request.User != sessionKey) {
+                return BadRequest("Key and user don't match up.");
+            }
+            
+            await _redis.KeyDeleteAsync(request.Key);
             return Ok(new { Message = "Session successfully closed." });
         }
     }

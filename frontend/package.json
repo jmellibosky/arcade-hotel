@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reduxjs/toolkit": "^2.6.0",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "cra-template": "1.2.0",
@@ -12,8 +13,10 @@
     "react-flagkit": "^2.0.4",
     "react-i18next": "^15.4.0",
     "react-icons": "^5.4.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.1",
     "react-scripts": "5.0.1",
+    "redux-persist": "^6.0.0",
     "sass": "^1.83.1",
     "typescript": "^5.7.3"
   },

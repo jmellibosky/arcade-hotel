@@ -39,7 +39,7 @@ export default function CashInOut() {
 
     const OnAlertSuccessClose = () => {
         setShowAlert(false);
-        navigate('/users');
+        navigate('/users/list');
     }
 
     const OnInputChange = (event) => {
@@ -59,7 +59,7 @@ export default function CashInOut() {
                     <div className="section-admin text-center">
                         <h3>
                             <span>Habitación N°{user.room}</span>
-                            <div className="d-flex align-items-center btn-icon" onClick={() => navigate('/users')} title="Volver al listado">
+                            <div className="d-flex align-items-center btn-icon" onClick={() => navigate('/users/list')} title="Volver al listado">
                                 <FaArrowLeft />
                             </div>
                         </h3>

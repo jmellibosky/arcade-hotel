@@ -2,9 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import { useHistory } from '../services/useHistory';
 import { FaArrowLeft } from 'react-icons/fa'
 import Loading from './utils/Loading';
+import { useSelector } from 'react-redux';
 
 export default function History() {
-    const { data: history, isLoading: isLoadingHistory, error: errorHistory } = useHistory({room: 303, reset: false});
+    const userData = useSelector((state) => state.login.login);
+
+    const { data: history, isLoading: isLoadingHistory, error: errorHistory } = useHistory({room: userData.name, reset: false});
     const navigate = useNavigate();
 
     return(
@@ -32,16 +35,14 @@ export default function History() {
                 }
                 </div>
             )}
-            <div className="section-admin">
-                {errorHistory && (
-                    <div className="text-center">
-                        <span>No se ha podido recuperar el listado de habitaciones.</span>
-                    </div>
-                )}
-                {isLoadingHistory && (
-                    <Loading />
-                )}
-            </div>
+            {errorHistory && (
+                <div className="text-center">
+                    <span>No hay movimientos.</span>
+                </div>
+            )}
+            {isLoadingHistory && (
+                <Loading />
+            )}
         </div>
     );
 }

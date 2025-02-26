@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRooms } from "../services/useRooms";
-import { FaEye, FaEyeSlash, FaArrowRightToBracket } from 'react-icons/fa6';
+import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { useCash, usePassword } from "../services/useUserTasks";
 import Alert, { AlertSuccess, AlertError } from "./utils/Alert";
@@ -70,16 +70,7 @@ export default function Users() {
             )}
 
             <div className="section-admin">
-                <h3>
-                    Habitaciones
-                    <div
-                        className="d-flex align-items-center btn-icon"
-                        onClick={() => navigate('/login/admin')}
-                        title="Cerrar sesión"
-                    >
-                        <FaArrowRightToBracket />
-                    </div>
-                </h3>
+                <h3>Habitaciones</h3>
                 {!isLoadingRooms && !errorRooms && (
                     <>
                     <div className="table-content table-header mt-3">

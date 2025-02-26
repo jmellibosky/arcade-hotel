@@ -19,7 +19,7 @@ Accept: application/json
 ###
 
 # Get movements by room since last reset
-GET {{HotelAPI_HostAddress}}/api/movements/1
+GET {{HotelAPI_HostAddress}}/api/movements/301
 Accept: application/json
 
 ###
