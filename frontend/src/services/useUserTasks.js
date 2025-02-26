@@ -3,23 +3,29 @@ import useApiRequest from "../hooks/useApiRequest"
 export function useSession() {
     const { sendRequest, isLoading, error } = useApiRequest();
 
-    const roomLogin = async ({ room, pass }) => {
-        
+    const login = async ({ room, pass }) => {
+        return await sendRequest(
+            {
+                endpoint: 'users',
+                method: 'POST',
+                body: {
+                    user: room,
+                    pass: pass
+                }
+            }
+        )
     }
     
-    const adminLogin = async ({ user, pass }) => {
-        
-    }
-    
-    const roomLogout = async ({ room }) => {
-        
-    }
-    
-    const adminLogout = async ({ user }) => {
-        
+    const logout = async ({ room }) => {
+        return await sendRequest(
+            {
+                endpoint: 'users',
+                method: 'DELETE'
+            }
+        )
     }
 
-    return { roomLogin, adminLogin, roomLogout, adminLogout, isLoading, error };
+    return { login, logout, isLoading, error };
 }
 
 export function usePassword() {

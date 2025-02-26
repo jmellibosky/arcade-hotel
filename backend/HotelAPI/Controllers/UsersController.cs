@@ -31,6 +31,8 @@ namespace HotelAPI.Controllers
         {
             // Recuperar el usuario desde la base de datos
             string sessionKey;
+            string name;
+            string type;
 
             Room? userRoom = _context.Rooms.FirstOrDefault(r => r.Name == request.User && r.Password.ToString() == request.Pass);
             if (userRoom == null)
@@ -43,12 +45,19 @@ namespace HotelAPI.Controllers
                 else
                 {
                     sessionKey = $"user:user_{userUser.UserId}";
+                    name = userUser.Name;
+                    type = "admin";
                 }
             }
             else
             {
                 sessionKey = $"user:room_{userRoom.RoomId}";
+                name = userRoom.Name;
+                type = "room";
             }
+
+            sessionKey = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(sessionKey)));
+
             
             await _redis.StringSetAsync(sessionKey, request.User, TimeSpan.FromDays(7));
 
@@ -60,7 +69,12 @@ namespace HotelAPI.Controllers
                 Expires = DateTimeOffset.UtcNow.AddDays(7)
             });
 
-            return Ok(new { Message = "Session successfully authenticated." });
+            return Ok(new {
+                Message = "Session successfully authenticated.",
+                Key = sessionKey,
+                Name = name,
+                Type = type
+            });
         }
 
         [HttpDelete]
