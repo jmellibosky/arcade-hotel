@@ -1,0 +1,108 @@
+{
+    "users": [
+      {
+        "name": "lyf",
+        "password": "lyf",
+        "tags": "administrator"
+      },
+      {
+        "name": "admin",
+        "password": "admin",
+        "tags": "administrator"
+      }
+    ],
+    "permissions": [
+      {
+        "user": "admin",
+        "vhost": "/",
+        "configure": ".*",
+        "write": ".*",
+        "read": ".*"
+      },
+      {
+        "user": "lyf",
+        "vhost": "/",
+        "configure": ".*",
+        "write": ".*",
+        "read": ".*"
+      }
+    ],
+    "vhosts": [
+      {
+        "name": "/"
+      }
+    ],
+    "queues": [
+      {
+        "name": "arcade1",
+        "vhost": "/",
+        "durable": true
+      },
+      {
+        "name": "arcade2",
+        "vhost": "/",
+        "durable": true
+      },
+      {
+        "name": "arcade3",
+        "vhost": "/",
+        "durable": true
+      },
+      {
+        "name": "arcade4",
+        "vhost": "/",
+        "durable": true
+      },
+      {
+        "name": "arcade5",
+        "vhost": "/",
+        "durable": true
+      }
+    ],
+    "exchanges": [
+      {
+        "name": "direct_exchange",
+        "vhost": "/",
+        "type": "direct",
+        "durable": true
+      }
+    ],
+    "bindings": [
+      {
+        "source": "direct_exchange",
+        "destination": "arcade1",
+        "destination_type": "queue",
+        "routing_key": "key1",
+        "vhost": "/"
+      },
+      {
+        "source": "direct_exchange",
+        "destination": "arcade2",
+        "destination_type": "queue",
+        "routing_key": "key2",
+        "vhost": "/"
+      },
+      {
+        "source": "direct_exchange",
+        "destination": "arcade3",
+        "destination_type": "queue",
+        "routing_key": "key3",
+        "vhost": "/"
+      },
+      {
+        "source": "direct_exchange",
+        "destination": "arcade4",
+        "destination_type": "queue",
+        "routing_key": "key4",
+        "vhost": "/"
+      },
+      {
+        "source": "direct_exchange",
+        "destination": "arcade5",
+        "destination_type": "queue",
+        "routing_key": "key5",
+        "vhost": "/"
+      }
+    ]
+  }
+  

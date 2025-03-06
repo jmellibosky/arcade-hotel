@@ -38,15 +38,19 @@ services:
   #     - RABBITMQ_HOST=rabbitmq
   #     - ARCADE_ID=3
 
-  # rabbitmq:
-  #   image: rabbitmq:4.0.5-management
-  #   ports:
-  #     - "1883:1883"
-  #     - "15672:15672"
-  #   environment:
-  #     RABBITMQ_MQTT_DEFAULT_USER: guest
-  #     RABBITMQ_MQTT_DEFAULT_PASS: guest
-  #   command: >
-  #     sh -c "rabbitmq-plugins enable rabbitmq_mqtt &&
-  #            rabbitmq-plugins enable rabbitmq_management &&
-  #            rabbitmq-plugins enable rabbitmq_web_mqtt"
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"    # AMQP
+      - "15672:15672"  # UI de administración
+      - "1883:1883"    # MQTT
+    environment:
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: -rabbitmq_management load_definitions "/etc/rabbitmq/definitions.json"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+
+volumes:
+  rabbitmq_data:
