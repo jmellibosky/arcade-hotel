@@ -40,12 +40,12 @@ export default function Details() {
     const confirm = async () => {
         try {
             if (!validateBalance()) {
-                setConfigAlert(AlertWarning("No posees suficiente dinero para realizar esta compra."));
+                setConfigAlert(AlertWarning("No poseés suficiente dinero para realizar esta compra."));
                 setShowAlert(true);
                 return;
             }
 
-            await processTransaction({ room: userData.name, amount: item.price, drinkId: item.drinkId, gameId: item.gameId });
+            await processTransaction({ room: userData.name, amount: item.price, drinkId: item.drinkId, gameId: item.gameId, player: item.player });
 
             if (errorCash) {
                 throw new Error("Error en la venta");
@@ -76,6 +76,7 @@ export default function Details() {
                         <div className="d-flex flex-column">
                             <span>{item.machines[0].name}</span>
                             <h4>$ {item.price}</h4>
+                            <span>Jugador {item.player}</span>
                         </div>
                     </div>
                     <div className="w-auto">

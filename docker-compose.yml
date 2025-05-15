@@ -51,6 +51,8 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
       - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+    command: >
+      bash -c "rabbitmq-plugins enable --offline rabbitmq_mqtt && rabbitmq-server"
 
 volumes:
   rabbitmq_data:

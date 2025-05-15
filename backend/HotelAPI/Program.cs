@@ -1,3 +1,4 @@
+using HotelAPI.Managers;
 using HotelAPI.Models;
 using HotelAPI.Services.Implementations;
 using HotelAPI.Services.Interfaces;
@@ -9,8 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
+#region Databases and Cache
 builder.Services.AddDbContext<ArcadeHotelContext>(options =>
-    options.UseSqlServer(Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? "Data Source=LAPTOP-L2VQ7PBO;Initial Catalog=ArcadeHotel;Integrated Security=True;Trust Server Certificate=True")
+    options.UseSqlServer(Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? "Data Source=192.168.100.155;Initial Catalog=ArcadeHotel;User ID=hotel;Password=SNEPfluffy85!;Trust Server Certificate=True")
 );
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(Environment.GetEnvironmentVariable("REDIS_STRING") ?? "localhost:6379"));
@@ -29,15 +31,19 @@ builder.Services.AddSession(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.Cookie.SameSite = SameSiteMode.Strict;
 });
+#endregion
 
-
+#region Services and Managers
+builder.Services.AddSingleton<MqttPublisher>();
 builder.Services.AddScoped<IDrinksService, DrinksService>();
 builder.Services.AddScoped<IGamesService, GamesService>();
 builder.Services.AddScoped<IRoomsService, RoomsService>();
 builder.Services.AddScoped<IMovementsService, MovementsService>();
+#endregion
 
 builder.Services.AddOpenApi();
 
+#region URL and CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
@@ -55,6 +61,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.WebHost.UseUrls("http://0.0.0.0:15000", "http://0.0.0.0:15001");
+#endregion
 
 var app = builder.Build();
 

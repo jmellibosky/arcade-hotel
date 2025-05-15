@@ -18,6 +18,8 @@ public partial class Game
 
     public string ImageUrl { get; set; }
 
+    public int? MaxPlayers { get; set; }
+
     [JsonIgnore]
     public virtual ICollection<Arcade> Arcades { get; set; } = new List<Arcade>();
 

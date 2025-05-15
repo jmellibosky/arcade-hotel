@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using HotelAPI.Requests;
 using Microsoft.AspNetCore.Http.HttpResults;
 using HotelAPI.Enums;
+using HotelAPI.Managers;
 
 namespace HotelAPI.Controllers
 {
@@ -19,10 +20,12 @@ namespace HotelAPI.Controllers
     public class MovementsController : ControllerBase
     {
         private readonly ArcadeHotelContext _context;
+        private readonly MqttPublisher _mqtt;
 
-        public MovementsController(ArcadeHotelContext context)
+        public MovementsController(ArcadeHotelContext context, MqttPublisher mqtt)
         {
             _context = context;
+            _mqtt = mqtt;
         }
 
         private static string GetItemName(Movement m)
@@ -73,7 +76,7 @@ namespace HotelAPI.Controllers
                     .Include(m => m.Game)
                     .Include(m => m.Drink)
                     .Include(m => m.LastReset)
-                    .Where(m => m.RoomId == Room.RoomId 
+                    .Where(m => m.RoomId == Room.RoomId
                         && m.MovementTypeId != (int)MovementTypes.Reset
                         && (reset || m.LastResetId == Room.LastMovement.LastResetId))
                     .Select(m => new HistoryResponse()
@@ -192,6 +195,14 @@ namespace HotelAPI.Controllers
         }
 
         [HttpPost]
+        [Route("mqtt")]
+        public async Task<ActionResult> MqttTest()
+        {
+            await _mqtt.PublishMessageAsync("arcade1", "hola mundo");
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("extraction")]
         public async Task<ActionResult<Movement>> Extraction([FromBody] MovementRequest request)
         {
@@ -254,6 +265,8 @@ namespace HotelAPI.Controllers
 
                 if (RoomToExtract == null) return NotFound("Room not found.");
                 if (RoomToExtract.LastMovement == null) return NotFound("Room has no last movement.");
+
+                await _mqtt.PublishMessageAsync("arcade1", "hola mundo");
 
                 Movement TransactionMovement = new Movement()
                 {

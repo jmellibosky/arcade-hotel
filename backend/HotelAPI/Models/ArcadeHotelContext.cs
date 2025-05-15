@@ -36,7 +36,7 @@ public partial class ArcadeHotelContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? "Data Source=LAPTOP-L2VQ7PBO;Initial Catalog=ArcadeHotel;Integrated Security=True;Trust Server Certificate=True";
+        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? "Data Source=192.168.100.155;Initial Catalog=ArcadeHotel;User ID=hotel;Password=SNEPfluffy85!;Trust Server Certificate=True";
         optionsBuilder.UseSqlServer(connectionString);
     }
 
