@@ -118,5 +118,15 @@ export function useCash() {
         )
     }
 
-    return { extractCash, depositCash, resetCash, processTransaction, isLoading, error };
+    const testMqtt = async () => {
+        console.log(2);
+        return await sendRequest(
+            {
+                endpoint: 'movements/mqtt',
+                method: 'POST'
+            }
+        )
+    }
+
+    return { extractCash, depositCash, resetCash, processTransaction, testMqtt, isLoading, error };
 }

@@ -1,67 +1,60 @@
+using HotelAPI.Managers;
 using HotelAPI.Models;
 using HotelAPI.Services.Implementations;
 using HotelAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using StackExchange.Redis;
+using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 
+#region Databases and Caché
 builder.Services.AddDbContext<ArcadeHotelContext>(options =>
     options.UseSqlServer(Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? "Data Source=LAPTOP-L2VQ7PBO;Initial Catalog=ArcadeHotel;Integrated Security=True;Trust Server Certificate=True")
 );
+#endregion
 
-builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(Environment.GetEnvironmentVariable("REDIS_STRING") ?? "localhost:6379"));
-
-// Configurar Redis como almacenamiento de sesiones
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = Environment.GetEnvironmentVariable("REDIS_STRING") ?? "localhost:6379";
-});
-
-// Agrega configuraciones de la sesión al contenedor de servicios
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromDays(7);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-    options.Cookie.SameSite = SameSiteMode.Strict;
-});
-
-
+#region Services and Managers
+builder.Services.AddSingleton<MqttPublisher>();
 builder.Services.AddScoped<IDrinksService, DrinksService>();
 builder.Services.AddScoped<IGamesService, GamesService>();
 builder.Services.AddScoped<IRoomsService, RoomsService>();
 builder.Services.AddScoped<IMovementsService, MovementsService>();
+builder.Services.AddSingleton<IConnection>(sp =>
+{
+   var factory = new ConnectionFactory()
+   {
+       HostName = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost",
+       UserName = Environment.GetEnvironmentVariable("RABBITMQ_USER") ?? "admin",
+       Password = Environment.GetEnvironmentVariable("RABBITMQ_PASS") ?? "admin",
+   };
+   return factory.CreateConnection();
+});
+#endregion
 
 builder.Services.AddOpenApi();
 
+#region URL and CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://0.0.0.0:3000")
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("http://localhost:3000", "http://192.168.100.155:3000")
+        //policy.AllowAnyOrigin()
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
 });
 
 builder.WebHost.UseUrls("http://0.0.0.0:15000", "http://0.0.0.0:15001");
+#endregion
 
 var app = builder.Build();
 
-app.UseSession();
-app.UseCors("AllowAll"); // A ESTO HAY QUE CAMBIARLO LUEGO
-// PELIGRO
-// ESTO PERMITE RECIBIR SOLICITUDES DESDE CUALQUIER ORIGEN
+app.UseRouting();
+app.UseCors("AllowReactApp");
 
 if (app.Environment.IsDevelopment())
 {

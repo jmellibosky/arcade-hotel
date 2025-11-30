@@ -19,9 +19,9 @@ export default function useFetchData(endpoint) {
         const loadData = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`${API_BASE_URL}${endpoint}`);
                 console.log(`Fetching: ${API_BASE_URL}${endpoint}`);
-                
+                const response = await fetch(`${API_BASE_URL}${endpoint}`);
+                console.log("Response status:", response);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }

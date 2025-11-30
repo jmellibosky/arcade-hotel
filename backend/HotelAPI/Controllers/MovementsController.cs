@@ -11,6 +11,8 @@ using Microsoft.IdentityModel.Tokens;
 using HotelAPI.Requests;
 using Microsoft.AspNetCore.Http.HttpResults;
 using HotelAPI.Enums;
+using HotelAPI.Managers;
+using RabbitMQ.Client;
 
 namespace HotelAPI.Controllers
 {
@@ -19,10 +21,14 @@ namespace HotelAPI.Controllers
     public class MovementsController : ControllerBase
     {
         private readonly ArcadeHotelContext _context;
+        private readonly MqttPublisher _mqtt;
+        private readonly IConnection _rabbit;
 
-        public MovementsController(ArcadeHotelContext context)
+        public MovementsController(ArcadeHotelContext context, MqttPublisher mqtt, IConnection rabbit)
         {
             _context = context;
+            _mqtt = mqtt;
+            _rabbit = rabbit;
         }
 
         private static string GetItemName(Movement m)
@@ -189,6 +195,15 @@ namespace HotelAPI.Controllers
                 await transaction.RollbackAsync();
                 return StatusCode(StatusCodes.Status500InternalServerError, new { error = ex.Message });
             }
+        }
+
+        [HttpPost]
+        [Route("mqtt")]
+        public ActionResult MqttTest()
+        {
+            //await _mqtt.PublishMessageAsync("arcade1", "hola mundo");
+            RabbitMqManager.Publish(_rabbit, "test_queue", "funciona?");
+            return Ok();
         }
 
         [HttpPost]

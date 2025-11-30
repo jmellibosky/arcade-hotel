@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HotelAPI.Models;
-using StackExchange.Redis;
 using HotelAPI.Requests;
 using System.Text;
 using System.Security.Cryptography;
@@ -18,17 +17,17 @@ namespace HotelAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ArcadeHotelContext _context;
-        private readonly IDatabase _redis;
 
-        public UsersController(ArcadeHotelContext context, IConnectionMultiplexer redis)
+        public UsersController(ArcadeHotelContext context)
         {
             _context = context;
-            _redis = redis.GetDatabase();
         }
 
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
+            Console.WriteLine("Login attempt for user: " + request.User);
+
             // Recuperar el usuario desde la base de datos
             string sessionKey;
             string name;
@@ -63,9 +62,6 @@ namespace HotelAPI.Controllers
 
             sessionKey = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(sessionKey)));
 
-            
-            await _redis.StringSetAsync(sessionKey, request.User, TimeSpan.FromDays(7));
-
             Response.Cookies.Append("SessionId", sessionKey, new CookieOptions
             {
                 HttpOnly = true,
@@ -85,19 +81,7 @@ namespace HotelAPI.Controllers
 
         [HttpDelete]
         public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
-        {
-            RedisValue sessionKey = await _redis.StringGetAsync(request.Key);
-
-            if (!sessionKey.HasValue)
-            {
-                return BadRequest("No active session.");
-            }
-
-            if (request.User != sessionKey) {
-                return BadRequest("Key and user don't match up.");
-            }
-            
-            await _redis.KeyDeleteAsync(request.Key);
+        {            
             return Ok(new { Message = "Session successfully closed." });
         }
     }

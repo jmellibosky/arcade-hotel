@@ -1,42 +1,24 @@
 services:
-  backend:
-    build: ./backend
-    ports:
-      - "15000:15000"
-    depends_on:
-      - redis
-    environment:
-      - CONNECTION_STRING=${CONNECTION_STRING}
-      - REDIS_STRING=${REDIS_STRING}
+  # backend:
+  #   build: ./backend
+  #   ports:
+  #     - "15000:15000"
+  #   environment:
+  #     - CONNECTION_STRING=${CONNECTION_STRING}
 
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-  
-  # arcade1:
-  #   build: ./arcade
-  #   depends_on:
-  #     - rabbitmq
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   ports:
+  #     - "3000:3000"
   #   environment:
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - ARCADE_ID=1
-  
-  # arcade2:
-  #   build: ./arcade
-  #   depends_on:
-  #     - rabbitmq
-  #   environment:
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - ARCADE_ID=2
-  
-  # arcade3:
-  #   build: ./arcade
-  #   depends_on:
-  #     - rabbitmq
-  #   environment:
-  #     - RABBITMQ_HOST=rabbitmq
-  #     - ARCADE_ID=3
+  #     - REACT_APP_API_URL=${REACT_APP_API_URL}
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #   stdin_open: true
+  #   tty: true
+  #   command: npm start
 
   rabbitmq:
     image: rabbitmq:3.12-management
@@ -47,10 +29,12 @@ services:
       - "15672:15672"  # UI de administración
       - "1883:1883"    # MQTT
     environment:
-      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: -rabbitmq_management load_definitions "/etc/rabbitmq/definitions.json"
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
-      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+    command: >
+      bash -c "rabbitmq-plugins enable rabbitmq_mqtt && rabbitmq-server"
 
 volumes:
   rabbitmq_data:

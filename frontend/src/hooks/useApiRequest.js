@@ -11,6 +11,7 @@ export default function useApiRequest() {
         setError(null);
 
         try {
+            console.log(`Fetching: ${API_BASE_URL}${endpoint}-${JSON.stringify(body)}`);
             const response = await fetch(`${API_BASE_URL}${endpoint}`, {
                 method,
                 headers: {
@@ -20,7 +21,7 @@ export default function useApiRequest() {
                 },
                 body: body ? JSON.stringify(body) : null,
             });
-            console.log(`Fetching: ${API_BASE_URL}${endpoint}-${JSON.stringify(body)}`);
+            console.log("Response status:", response);
 
             if (!response.ok) {
                 throw new Error(`HTTP Error: ${response.status}`);

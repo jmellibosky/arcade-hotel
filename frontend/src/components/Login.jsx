@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import { useSession } from "../services/useUserTasks";
-import Alert, { AlertError } from "./utils/Alert";
+import Alert, { AlertError, AlertSuccess } from "./utils/Alert";
 import { LoadingHover } from "./utils/Loading";
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../redux/loginReducer';
 
 export default function Login() {
     const navigate = useNavigate();
-    const { login: loginTask, isLoading, error } = useSession();
+    const { login: loginTask, testMqtt, isLoading, error } = useSession();
         
     const [showAlert, setShowAlert] = useState(false);
     const [configAlert, setConfigAlert] = useState({
@@ -40,6 +40,22 @@ export default function Login() {
         }
     }
 
+    const onTestMqtt = async () => {
+        console.log('onTestMqtt');
+        try {
+            let result = await testMqtt();
+            if (error) {
+                throw new Error("Error al testear MQTT.");
+            } else {
+                setConfigAlert(AlertSuccess("Salió bien MQTT (ahora sí)"));
+                setShowAlert(true);
+            }
+        } catch (error) {
+            setConfigAlert(AlertError("Falló MQTT"));
+            setShowAlert(true);
+        }
+    }
+
     const userData = useSelector((state) => state.login.login);
     
     useEffect(() => {
@@ -65,6 +81,9 @@ export default function Login() {
                 <input type="password" placeholder="Contraseña" onChange={(event) => setPass(event.target.value)} />
                 <div className="btn-item" onClick={() => checkPassword()}>
                     Iniciar sesión
+                </div>
+                <div className="btn-item" onClick={() => onTestMqtt()}>
+                    Test MQTT
                 </div>
             </div>
             {showAlert && (

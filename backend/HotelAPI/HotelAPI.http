@@ -97,3 +97,7 @@ Content-Type: application/json
 Accept: application/json
 
 ###
+
+POST {{HotelAPI_HostAddress}}/api/movements/mqtt
+Content-Type: application/json
+Accept: application/json
