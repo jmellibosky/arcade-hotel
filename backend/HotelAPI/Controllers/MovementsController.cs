@@ -79,7 +79,7 @@ namespace HotelAPI.Controllers
                     .Include(m => m.Game)
                     .Include(m => m.Drink)
                     .Include(m => m.LastReset)
-                    .Where(m => m.RoomId == Room.RoomId 
+                    .Where(m => m.RoomId == Room.RoomId
                         && m.MovementTypeId != (int)MovementTypes.Reset
                         && (reset || m.LastResetId == Room.LastMovement.LastResetId))
                     .Select(m => new HistoryResponse()
@@ -207,6 +207,14 @@ namespace HotelAPI.Controllers
         }
 
         [HttpPost]
+        [Route("mqtt")]
+        public async Task<ActionResult> MqttTest()
+        {
+            await _mqtt.PublishMessageAsync("arcade1", "hola mundo");
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("extraction")]
         public async Task<ActionResult<Movement>> Extraction([FromBody] MovementRequest request)
         {
@@ -269,6 +277,8 @@ namespace HotelAPI.Controllers
 
                 if (RoomToExtract == null) return NotFound("Room not found.");
                 if (RoomToExtract.LastMovement == null) return NotFound("Room has no last movement.");
+
+                await _mqtt.PublishMessageAsync("arcade1", "hola mundo");
 
                 Movement TransactionMovement = new Movement()
                 {

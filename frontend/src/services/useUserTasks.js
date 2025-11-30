@@ -97,13 +97,7 @@ export function useCash() {
         );
     }
 
-    const processTransaction = async ({ room, amount, drinkId, gameId}) => {
-        console.log({
-            room: room,
-            amount: amount,
-            drinkId: drinkId ?? null,
-            gameId: gameId ?? null
-        });
+    const processTransaction = async ({ room, amount, drinkId, gameId, player}) => {
         return await sendRequest(
             {
                 endpoint: 'movements/transaction',
@@ -112,7 +106,8 @@ export function useCash() {
                     room: room,
                     amount: amount,
                     drinkId: drinkId ?? null,
-                    gameId: gameId ?? null
+                    gameId: gameId ?? null,
+                    playerNumber: player ?? 1
                 }
             }
         )

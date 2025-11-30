@@ -43,7 +43,7 @@ export default function Home() {
                 {
                     games.map((o, i) => {
                         return (
-                            <div id={"icon-" + i} key={i} className="list-icon" onClick={() => navigate('/details', { state: o })}>
+                            <div id={"icon-" + i} key={i} className="list-icon" onClick={() => navigate('/players', { state: o })}>
                                 <img src={o.img} alt={o.name} />
                             </div>
                         );

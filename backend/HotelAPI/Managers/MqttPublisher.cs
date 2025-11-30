@@ -32,7 +32,14 @@ namespace HotelAPI.Managers
         {
             if (!_client.IsConnected)
             {
-                await _client.ConnectAsync(_options, CancellationToken.None);
+                try
+                {
+                    await _client.ConnectAsync(_options, CancellationToken.None);
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
             }
         }
 
@@ -40,16 +47,16 @@ namespace HotelAPI.Managers
         {
             try
             {
-                await ConnectAsync();
+            await ConnectAsync();
 
-                var MqttMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic(topic)
-                    .WithPayload(Encoding.UTF8.GetBytes(message))
-                    .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
-                    .Build();
+            var MqttMessage = new MqttApplicationMessageBuilder()
+                .WithTopic(topic)
+                .WithPayload(Encoding.UTF8.GetBytes(message))
+                .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.AtLeastOnce)
+                .Build();
 
-                await _client.PublishAsync(MqttMessage, CancellationToken.None);
-            }
+            await _client.PublishAsync(MqttMessage, CancellationToken.None);
+        }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);

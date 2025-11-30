@@ -6,6 +6,7 @@ import { FaArrowRightToBracket } from 'react-icons/fa6'
 import Home from './components/Home';
 import Details from './components/Details';
 import Machines from './components/Machines';
+import Players from './components/Players';
 import History from './components/History';
 import { useState, useEffect } from 'react';
 import { useSession } from './services/useUserTasks';
@@ -72,6 +73,7 @@ export default function AppRoom() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/machines" element={<Machines />} />
+                    <Route path="/players" element={<Players />} />
                     <Route path="/details" element={<Details />} />
                     <Route path="/history" element={<History />} />
                 </Routes>
