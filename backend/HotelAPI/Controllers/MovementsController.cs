@@ -21,13 +21,11 @@ namespace HotelAPI.Controllers
     public class MovementsController : ControllerBase
     {
         private readonly ArcadeHotelContext _context;
-        private readonly MqttPublisher _mqtt;
         private readonly IConnection _rabbit;
 
-        public MovementsController(ArcadeHotelContext context, MqttPublisher mqtt, IConnection rabbit)
+        public MovementsController(ArcadeHotelContext context, IConnection rabbit)
         {
             _context = context;
-            _mqtt = mqtt;
             _rabbit = rabbit;
         }
 
@@ -207,14 +205,6 @@ namespace HotelAPI.Controllers
         }
 
         [HttpPost]
-        [Route("mqtt")]
-        public async Task<ActionResult> MqttTest()
-        {
-            await _mqtt.PublishMessageAsync("arcade1", "hola mundo");
-            return Ok();
-        }
-
-        [HttpPost]
         [Route("extraction")]
         public async Task<ActionResult<Movement>> Extraction([FromBody] MovementRequest request)
         {
@@ -278,7 +268,7 @@ namespace HotelAPI.Controllers
                 if (RoomToExtract == null) return NotFound("Room not found.");
                 if (RoomToExtract.LastMovement == null) return NotFound("Room has no last movement.");
 
-                await _mqtt.PublishMessageAsync("arcade1", "hola mundo");
+                //await _mqtt.PublishMessageAsync("arcade1", "hola mundo");
 
                 Movement TransactionMovement = new Movement()
                 {

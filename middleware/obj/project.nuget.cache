@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "lWv/Obnmam4=",
+  "dgSpecHash": "SblS0JBWWPo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\musi\\source\\repos\\HotelMiddleware\\HotelMiddleware.csproj",
+  "projectFilePath": "C:\\Users\\musi\\Documents\\GitHub\\arcade-hotel\\middleware\\HotelMiddleware.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\musi\\.nuget\\packages\\microsoft.extensions.configuration\\9.0.9\\microsoft.extensions.configuration.9.0.9.nupkg.sha512",
     "C:\\Users\\musi\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\9.0.9\\microsoft.extensions.configuration.abstractions.9.0.9.nupkg.sha512",

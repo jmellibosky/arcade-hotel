@@ -17,7 +17,6 @@ builder.Services.AddDbContext<ArcadeHotelContext>(options =>
 #endregion
 
 #region Services and Managers
-builder.Services.AddSingleton<MqttPublisher>();
 builder.Services.AddScoped<IDrinksService, DrinksService>();
 builder.Services.AddScoped<IGamesService, GamesService>();
 builder.Services.AddScoped<IRoomsService, RoomsService>();

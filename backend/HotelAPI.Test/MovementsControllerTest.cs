@@ -18,13 +18,13 @@ namespace HotelAPI.Test
     {
         private readonly MovementsController _controller;
 
-        public MovementsControllerTest()
-        {
-            _controller = new MovementsController(
-                    new ArcadeHotelContext(
-                        new DbContextOptionsBuilder<ArcadeHotelContext>()
-                            .UseSqlServer("internet85").Options));
-        }
+        //public MovementsControllerTest()
+        //{
+        //    _controller = new MovementsController(
+        //            new ArcadeHotelContext(
+        //                new DbContextOptionsBuilder<ArcadeHotelContext>()
+        //                    .UseSqlServer("internet85").Options));
+        //}
 
         #region Get Tests
         [Fact]

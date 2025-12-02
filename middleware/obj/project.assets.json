@@ -636,11 +636,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\musi\\source\\repos\\HotelMiddleware\\HotelMiddleware.csproj",
+      "projectUniqueName": "C:\\Users\\musi\\Documents\\GitHub\\arcade-hotel\\middleware\\HotelMiddleware.csproj",
       "projectName": "HotelMiddleware",
-      "projectPath": "C:\\Users\\musi\\source\\repos\\HotelMiddleware\\HotelMiddleware.csproj",
+      "projectPath": "C:\\Users\\musi\\Documents\\GitHub\\arcade-hotel\\middleware\\HotelMiddleware.csproj",
       "packagesPath": "C:\\Users\\musi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\musi\\source\\repos\\HotelMiddleware\\obj\\",
+      "outputPath": "C:\\Users\\musi\\Documents\\GitHub\\arcade-hotel\\middleware\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
