@@ -59,8 +59,7 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-03T18:00:59.064Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -90,8 +89,7 @@
               "RelativeToolTip": "Common\\ConfigurationManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-04T00:03:17.345Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-04T00:03:17.345Z"
             },
             {
               "$type": "Document",
@@ -103,8 +101,7 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-12-03T23:55:09.629Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-03T23:55:09.629Z"
             },
             {
               "$type": "Document",
@@ -116,8 +113,7 @@
               "RelativeToolTip": "Models\\Config.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwA8AAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-03T23:54:28.332Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-03T23:54:28.332Z"
             },
             {
               "$type": "Document",
@@ -129,8 +125,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-03T18:06:17.426Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-03T18:06:17.426Z"
             },
             {
               "$type": "Document",
@@ -142,8 +137,7 @@
               "RelativeToolTip": "Common\\RabbitMqManager.cs",
               "ViewState": "AgIAAE4AAAAAAAAAAAAjwF4AAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-03T18:10:34.624Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-03T18:10:34.624Z"
             },
             {
               "$type": "Document",
@@ -155,8 +149,7 @@
               "RelativeToolTip": "Models\\Requests\\CoinRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-03T00:47:41.071Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-03T00:47:41.071Z"
             },
             {
               "$type": "Document",
@@ -168,8 +161,7 @@
               "RelativeToolTip": "protocol.md",
               "ViewState": "AgIAADMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2025-12-03T18:05:22.468Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-03T18:05:22.468Z"
             }
           ]
         }

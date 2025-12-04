@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "JqZFUjvDv6o=",
+  "dgSpecHash": "nPrTaTHMk7Y=",
   "success": true,
   "projectFilePath": "E:\\GitHub\\arcade-hotel\\middleware\\HotelMiddleware.csproj",
   "expectedPackageFiles": [
@@ -18,7 +18,11 @@
     "C:\\Users\\alvar\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\alvar\\.nuget\\packages\\system.text.encodings.web\\9.0.9\\system.text.encodings.web.9.0.9.nupkg.sha512",
     "C:\\Users\\alvar\\.nuget\\packages\\system.text.json\\9.0.9\\system.text.json.9.0.9.nupkg.sha512",
-    "C:\\Users\\alvar\\.nuget\\packages\\system.threading.channels\\4.7.1\\system.threading.channels.4.7.1.nupkg.sha512"
+    "C:\\Users\\alvar\\.nuget\\packages\\system.threading.channels\\4.7.1\\system.threading.channels.4.7.1.nupkg.sha512",
+    "C:\\Users\\alvar\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.22\\microsoft.windowsdesktop.app.ref.8.0.22.nupkg.sha512",
+    "C:\\Users\\alvar\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.22\\microsoft.netcore.app.ref.8.0.22.nupkg.sha512",
+    "C:\\Users\\alvar\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.22\\microsoft.aspnetcore.app.ref.8.0.22.nupkg.sha512",
+    "C:\\Users\\alvar\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.22\\microsoft.netcore.app.host.win-x64.8.0.22.nupkg.sha512"
   ],
   "logs": []
 }

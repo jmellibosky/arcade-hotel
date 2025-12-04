@@ -199,8 +199,8 @@ namespace HotelAPI.Controllers
         [Route("mqtt")]
         public ActionResult MqttTest()
         {
-            Console.WriteLine("")
-            RabbitMqManager.Publish(_rabbit, "a01.coin", "coin");
+            Console.WriteLine("Mensaje Enviado");
+            RabbitMqManager.Publish(_rabbit, "a01.coin", "coin{ id:");
             return Ok();
         }
 
