@@ -8,7 +8,7 @@ namespace HotelAPI.Managers
         {
             var channel = connection.CreateModel();
             channel.QueueDeclare(queue: queueName,
-                                 durable: false,
+                                 durable: true,
                                  exclusive: false,
                                  autoDelete: false,
                                  arguments: null);

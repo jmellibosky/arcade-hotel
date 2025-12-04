@@ -23,25 +23,27 @@ namespace HotelMiddleware.Arcade
         public ArcadeManager(Config config)
         {
             _config = config;
-            _rabbitmq = RabbitMqManager.GetInstanceFromConfig(config);
+            _rabbitmq = new RabbitMqManager().GetInstanceFromConfig(config);
             _topics = [ "coin", "default", "status" ];
         }
 
-        public void Run(Config config)
+        public void Run()
         {
             while (true)
             {
                 string messageReq = "";
-                while (!string.IsNullOrEmpty(messageReq))
+                while (string.IsNullOrEmpty(messageReq))
                 {
                     messageReq = ReadRabbitMq();
                 }
                 
+                Console.WriteLine("\n\nMensaje recibido: " + messageReq);
                 IRabbitMqRequest request = ParseRequestMessage(messageReq);
+                Console.WriteLine("Request parseado." + JsonConvert.ToString(request));
                 IRabbitMqResponse response = ProcessRequest(request);
+                Console.WriteLine("Request procesado." + JsonConvert.ToString(response));
 
                 string messageRes = ParseResponseMessage(response);
-
                 WriteRabbitMq(messageRes);
             }
         }
@@ -49,6 +51,12 @@ namespace HotelMiddleware.Arcade
         #region Request Processing
         private IRabbitMqResponse ProcessRequest(IRabbitMqRequest request)
         {
+            if (request == null)
+            {
+                //throw new Exception("El request fue nulo.");
+                Console.WriteLine("El request fue nulo.");
+                return null;
+            }
             if (request.GetType() == typeof(CoinRequest))
             {
                 return ProcessCoinRequest(request as CoinRequest);
@@ -63,7 +71,9 @@ namespace HotelMiddleware.Arcade
             }
             else
             {
-                throw new Exception("No se encontró el tipo de request.");
+                //throw new Exception("No se encontró el tipo de request.");
+                Console.WriteLine("No se encontró el tipo de request.");
+                return null;
             }
         }
 
@@ -86,7 +96,23 @@ namespace HotelMiddleware.Arcade
         #region Parsing
         private IRabbitMqRequest ParseRequestMessage(string message)
         {
-            throw new NotImplementedException();
+            if (message.StartsWith("coin"))
+            {
+                return JsonConvert.DeserializeObject<CoinRequest>(message.Replace("coin", ""));
+            }
+            else if (message.StartsWith("default"))
+            {
+                return JsonConvert.DeserializeObject<DefaultRequest>(message.Replace("default", ""));
+            }
+            else if (message.StartsWith("status"))
+            {
+                return JsonConvert.DeserializeObject<StatusRequest>(message.Replace("status", ""));
+            }
+            else {
+                //throw new Exception("No se encontró el tipo de request.");
+                Console.WriteLine("No se encontró el tipo de request.");
+                return null;
+            }
         }
 
         private string ParseResponseMessage(IRabbitMqResponse response)
@@ -103,7 +129,7 @@ namespace HotelMiddleware.Arcade
 
         private void WriteRabbitMq(string message)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
         #endregion
     }

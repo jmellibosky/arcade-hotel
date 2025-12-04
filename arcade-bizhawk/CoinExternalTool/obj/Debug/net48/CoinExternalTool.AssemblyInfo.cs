@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CoinExternalTool")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7821df9d74c7878d7ac3983e2fe53a04337c6435")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3665abbb28d497d154fb7869a39ab023245863f1")]
 [assembly: System.Reflection.AssemblyProductAttribute("CoinExternalTool")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CoinExternalTool")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

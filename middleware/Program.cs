@@ -6,7 +6,7 @@ Config config = ConfigurationManager.GetConfig();
 
 if (config.HardwareType == HardwareType.ARCADE)
 {
-    ArcadeManager.Run(config);
+    new ArcadeManager(config).Run();
 }
 else if (config.HardwareType == HardwareType.EXPENDEDORA)
 {

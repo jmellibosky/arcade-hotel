@@ -1,4 +1,5 @@
 ﻿using HotelMiddleware.Models;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,18 @@ namespace HotelMiddleware.Common
         private string _password;
         private string _prefix;
 
-        public static RabbitMqManager GetInstanceFromConfig(Config config)
+        public RabbitMqManager GetInstanceFromConfig(Config config)
         {
-            throw new NotImplementedException();
+            return new RabbitMqManager(
+                config.Host,
+                config.Port,
+                config.Username,
+                config.Password,
+                config.Id.ToLower()
+                );
         }
+
+        public RabbitMqManager() { }
 
         public RabbitMqManager(string host, string port, string username, string password, string prefix)
         {
@@ -29,19 +38,100 @@ namespace HotelMiddleware.Common
             _prefix = prefix;
         }
 
-        public string Read(string topic)
+        private IConnection GetConnection()
         {
-            throw new NotImplementedException();
-        }
+            var factory = new ConnectionFactory()
+            {
+                HostName = _host,
+                Port = int.Parse(_port),
+                UserName = _username,
+                Password = _password
+            };
 
-        public string Read(string[] topics)
-        {
-            throw new NotImplementedException();
+            return factory.CreateConnection();
         }
 
         public bool Write(string topic, string message)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using var connection = GetConnection();
+                using var channel = connection.CreateModel();
+
+                var fullTopic = $"{_prefix}.{topic}";
+
+                channel.QueueDeclare(
+                    queue: fullTopic,
+                    durable: false,
+                    exclusive: false,
+                    autoDelete: false,
+                    arguments: null
+                );
+
+                var body = Encoding.UTF8.GetBytes(message);
+
+                channel.BasicPublish(
+                    exchange: "",
+                    routingKey: fullTopic,
+                    basicProperties: null,
+                    body: body
+                );
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // ------------------------------------
+        // LEER UN MENSAJE DE UN TOPIC
+        // ------------------------------------
+        public string Read(string topic)
+        {
+            try
+            {
+                var fullTopic = $"{_prefix}.{topic}";
+
+                using var connection = GetConnection();
+                using var channel = connection.CreateModel();
+
+                // 👇 EVITA ERROR: si no existe, la crea.
+                channel.QueueDeclare(
+                    queue: fullTopic,
+                    durable: true,
+                    exclusive: false,
+                    autoDelete: false,
+                    arguments: null
+                );
+
+                var result = channel.BasicGet(fullTopic, autoAck: true);
+
+                if (result == null)
+                    return null;
+
+                return Encoding.UTF8.GetString(result.Body.ToArray());
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+        // ------------------------------------
+        // LEER VARIOS TOPICS
+        // ------------------------------------
+        public string Read(string[] topics)
+        {
+            foreach (var t in topics)
+            {
+                var msg = Read(t);
+                if (msg != null)
+                    return msg;
+            }
+            return null;
         }
     }
 }

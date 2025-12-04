@@ -199,8 +199,8 @@ namespace HotelAPI.Controllers
         [Route("mqtt")]
         public ActionResult MqttTest()
         {
-            //await _mqtt.PublishMessageAsync("arcade1", "hola mundo");
-            RabbitMqManager.Publish(_rabbit, "test_queue", "funciona?");
+            Console.WriteLine("")
+            RabbitMqManager.Publish(_rabbit, "a01.coin", "coin");
             return Ok();
         }
 

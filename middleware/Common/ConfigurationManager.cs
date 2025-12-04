@@ -20,7 +20,11 @@ namespace HotelMiddleware.Common
             Config config = new Config()
             {
                 HardwareType = HardwareTypes.ConvertToHardwareType(configFile["AppSettings:HardwareType"]),
-                Id = configFile["AppSettings:Id"]
+                Id = configFile["AppSettings:Id"],
+                Host = configFile["AppSettings:Host"],
+                Port = configFile["AppSettings:Port"],
+                Username = configFile["AppSettings:Username"],
+                Password = configFile["AppSettings:Password"],
             };
 
             return config;
