@@ -12,15 +12,15 @@ Donde:
 #### `coin`
 Request:
 ```
-{
-	id: 123, <<< identificador único de solicitud
+coin{
+	id: 1/1, <<< identificador único de solicitud
 	key: "Coin 1", <<< nombre del campo a ejecutar (cambia según juego y jugador)
 }
 ```
 Response:
 ```
 {
-	id: 123, <<< identificador único de solicitud
+	id: 1/1, <<< identificador único de solicitud
 	result: true, <<< resultado de la operación (false si ocurrió algún error)
 	message: "", <<< mensaje de error (vacío si no hay error)
 }
@@ -32,7 +32,7 @@ Request:
 {
 	type: "default",
 	content: {
-		id: 123, <<< identificador único de solicitud
+		id: 1/2, <<< identificador único de solicitud
 		file: "ssriderseaa.rar", <<< nombre del archivo que debe abrir la próxima vez
 		restart: true, <<< indica que debe reiniciarse 
 	}
@@ -41,7 +41,7 @@ Request:
 Response:
 ```
 {
-	id: 123, <<< identificador único de solicitud
+	id: 1/2, <<< identificador único de solicitud
 	result: true, <<< resultado de la operación (false si ocurrió algún error)
 	message: "", <<< mensaje de error (vacío si no hay error)
 }
@@ -51,13 +51,13 @@ Response:
 Request:
 ```
 {
-	id: 123, <<< identificador único de solicitud
+	id: 1/3, <<< identificador único de solicitud
 }
 ```
 Response:
 ```
 {
-	id: 123, <<< identificador único de solicitud
+	id: 1/3, <<< identificador único de solicitud
 	version: "1.0.0", <<< versión del programa puente
 }
 ```

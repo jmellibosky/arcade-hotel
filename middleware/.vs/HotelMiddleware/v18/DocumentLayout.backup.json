@@ -7,16 +7,20 @@
       "RelativeMoniker": "D:0:0:{0AF978F0-E2F0-471C-BA84-D0191EF2ADE0}|HotelMiddleware.csproj|solutionrelative:arcade\\arcademanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0AF978F0-E2F0-471C-BA84-D0191EF2ADE0}|HotelMiddleware.csproj|e:\\github\\arcade-hotel\\middleware\\protocol.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
-      "RelativeMoniker": "D:0:0:{0AF978F0-E2F0-471C-BA84-D0191EF2ADE0}|HotelMiddleware.csproj|solutionrelative:protocol.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0AF978F0-E2F0-471C-BA84-D0191EF2ADE0}|HotelMiddleware.csproj|e:\\github\\arcade-hotel\\middleware\\common\\rabbitmqmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0AF978F0-E2F0-471C-BA84-D0191EF2ADE0}|HotelMiddleware.csproj|solutionrelative:common\\rabbitmqmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0AF978F0-E2F0-471C-BA84-D0191EF2ADE0}|HotelMiddleware.csproj|e:\\github\\arcade-hotel\\middleware\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{0AF978F0-E2F0-471C-BA84-D0191EF2ADE0}|HotelMiddleware.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AF978F0-E2F0-471C-BA84-D0191EF2ADE0}|HotelMiddleware.csproj|e:\\github\\arcade-hotel\\middleware\\protocol.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{0AF978F0-E2F0-471C-BA84-D0191EF2ADE0}|HotelMiddleware.csproj|solutionrelative:protocol.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AF978F0-E2F0-471C-BA84-D0191EF2ADE0}|HotelMiddleware.csproj|e:\\github\\arcade-hotel\\middleware\\models\\interfaces\\irabbitmqrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AF978F0-E2F0-471C-BA84-D0191EF2ADE0}|HotelMiddleware.csproj|solutionrelative:models\\interfaces\\irabbitmqrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,19 +30,33 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "protocol.md",
               "DocumentMoniker": "E:\\GitHub\\arcade-hotel\\middleware\\protocol.md",
               "RelativeDocumentMoniker": "protocol.md",
-              "ToolTip": "E:\\GitHub\\arcade-hotel\\middleware\\protocol.md*",
-              "RelativeToolTip": "protocol.md*",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "ToolTip": "E:\\GitHub\\arcade-hotel\\middleware\\protocol.md",
+              "RelativeToolTip": "protocol.md",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABgAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
               "WhenOpened": "2025-12-04T18:26:10.109Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ArcadeManager.cs",
+              "DocumentMoniker": "E:\\GitHub\\arcade-hotel\\middleware\\Arcade\\ArcadeManager.cs",
+              "RelativeDocumentMoniker": "Arcade\\ArcadeManager.cs",
+              "ToolTip": "E:\\GitHub\\arcade-hotel\\middleware\\Arcade\\ArcadeManager.cs*",
+              "RelativeToolTip": "Arcade\\ArcadeManager.cs*",
+              "ViewState": "AgIAABYAAAAAAAAAAAA2wCcAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T19:37:33.806Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
@@ -64,7 +82,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
+              "Title": "IRabbitMqRequest.cs",
+              "DocumentMoniker": "E:\\GitHub\\arcade-hotel\\middleware\\Models\\Interfaces\\IRabbitMqRequest.cs",
+              "RelativeDocumentMoniker": "Models\\Interfaces\\IRabbitMqRequest.cs",
+              "ToolTip": "E:\\GitHub\\arcade-hotel\\middleware\\Models\\Interfaces\\IRabbitMqRequest.cs",
+              "RelativeToolTip": "Models\\Interfaces\\IRabbitMqRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T19:31:44.751Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
               "DocumentMoniker": "E:\\GitHub\\arcade-hotel\\middleware\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -72,37 +103,21 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-12-02T17:44:19.955Z"
+              "WhenOpened": "2025-12-02T17:44:19.955Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "RabbitMqManager.cs",
               "DocumentMoniker": "E:\\GitHub\\arcade-hotel\\middleware\\Common\\RabbitMqManager.cs",
               "RelativeDocumentMoniker": "Common\\RabbitMqManager.cs",
               "ToolTip": "E:\\GitHub\\arcade-hotel\\middleware\\Common\\RabbitMqManager.cs",
               "RelativeToolTip": "Common\\RabbitMqManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAmwCkAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-02T17:44:20.032Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ArcadeManager.cs",
-              "DocumentMoniker": "E:\\GitHub\\arcade-hotel\\middleware\\Arcade\\ArcadeManager.cs",
-              "RelativeDocumentMoniker": "Arcade\\ArcadeManager.cs",
-              "ToolTip": "E:\\GitHub\\arcade-hotel\\middleware\\Arcade\\ArcadeManager.cs",
-              "RelativeToolTip": "Arcade\\ArcadeManager.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAIAwwC0AAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-02T17:44:20.049Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
             }
           ]
         }

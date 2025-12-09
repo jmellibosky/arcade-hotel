@@ -39,9 +39,7 @@ namespace HotelMiddleware.Arcade
                 
                 Console.WriteLine("\n\nMensaje recibido: " + messageReq);
                 IRabbitMqRequest request = ParseRequestMessage(messageReq);
-                Console.WriteLine("Request parseado." + JsonConvert.ToString(request));
                 IRabbitMqResponse response = ProcessRequest(request);
-                Console.WriteLine("Request procesado." + JsonConvert.ToString(response));
 
                 string messageRes = ParseResponseMessage(response);
                 WriteRabbitMq(messageRes);
