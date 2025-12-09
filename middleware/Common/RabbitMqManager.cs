@@ -85,19 +85,15 @@ namespace HotelMiddleware.Common
             }
         }
 
-        // ------------------------------------
-        // LEER UN MENSAJE DE UN TOPIC
-        // ------------------------------------
         public string Read(string topic)
         {
             try
             {
-                var fullTopic = $"{_prefix}.{topic}";
+                var fullTopic = $"req.{_prefix}.{topic}";
 
                 using var connection = GetConnection();
                 using var channel = connection.CreateModel();
 
-                // 👇 EVITA ERROR: si no existe, la crea.
                 channel.QueueDeclare(
                     queue: fullTopic,
                     durable: true,
@@ -119,10 +115,6 @@ namespace HotelMiddleware.Common
             }
         }
 
-
-        // ------------------------------------
-        // LEER VARIOS TOPICS
-        // ------------------------------------
         public string Read(string[] topics)
         {
             foreach (var t in topics)

@@ -25,6 +25,8 @@ namespace HotelMiddleware.Common
                 Port = configFile["AppSettings:Port"],
                 Username = configFile["AppSettings:Username"],
                 Password = configFile["AppSettings:Password"],
+                Version = configFile["AppSettings:Version"],
+                LuaFilePath = configFile["AppSettings:LuaFilePath"]
             };
 
             return config;

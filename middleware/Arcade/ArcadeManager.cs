@@ -19,12 +19,17 @@ namespace HotelMiddleware.Arcade
         private RabbitMqManager _rabbitmq;
         private Config _config;
         private string[] _topics;
+        private const string _coinTopic = "coin";
+        private const string _defaultTopic = "default";
+        private const string _statusTopic = "status";
+        private int maxRetries = 10;
 
         public ArcadeManager(Config config)
         {
             _config = config;
             _rabbitmq = new RabbitMqManager().GetInstanceFromConfig(config);
-            _topics = [ "coin", "default", "status" ];
+
+            _topics = [ _coinTopic, _defaultTopic, _statusTopic ];
         }
 
         public void Run()
@@ -37,82 +42,120 @@ namespace HotelMiddleware.Arcade
                     messageReq = ReadRabbitMq();
                 }
                 
-                Console.WriteLine("\n\nMensaje recibido: " + messageReq);
-                IRabbitMqRequest request = ParseRequestMessage(messageReq);
-                IRabbitMqResponse response = ProcessRequest(request);
+                IRabbitMqResponse response = null;
+                string topic = "";
+                if (messageReq.StartsWith(_coinTopic))
+                {
+                    CoinRequest? coinRequest = JsonConvert.DeserializeObject<CoinRequest>(messageReq.Replace(_coinTopic, ""));
+                    if (coinRequest == null)
+                    {
+                        continue;
+                    }
 
-                string messageRes = ParseResponseMessage(response);
-                WriteRabbitMq(messageRes);
+                    topic = _coinTopic;
+                    response = ProcessCoinRequest(coinRequest);
+                }
+                else if (messageReq.StartsWith(_defaultTopic))
+                {
+                    DefaultRequest? defaultRequest = JsonConvert.DeserializeObject<DefaultRequest>(messageReq.Replace(_defaultTopic, ""));
+                    if (defaultRequest == null)
+                    {
+                        continue;
+                    }
+
+                    topic = _defaultTopic;
+                    response = ProcessDefaultRequest(defaultRequest);
+                }
+                else if (messageReq.StartsWith(_statusTopic))
+                {
+                    StatusRequest? statusRequest = JsonConvert.DeserializeObject<StatusRequest>(messageReq.Replace(_statusTopic, ""));
+                    if (statusRequest == null)
+                    {
+                        continue;
+                    }
+
+                    topic = _statusTopic;
+                    response = ProcessStatusRequest(statusRequest);
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (response != null)
+                {
+                    string messageRes = ParseResponseMessage(response);
+                    WriteRabbitMq(topic, messageRes);
+                }
             }
         }
 
         #region Request Processing
-        private IRabbitMqResponse ProcessRequest(IRabbitMqRequest request)
+        private CoinResponse ProcessCoinRequest(CoinRequest coinRequest)
         {
-            if (request == null)
-            {
-                //throw new Exception("El request fue nulo.");
-                Console.WriteLine("El request fue nulo.");
-                return null;
-            }
-            if (request.GetType() == typeof(CoinRequest))
-            {
-                return ProcessCoinRequest(request as CoinRequest);
-            }
-            else if (request.GetType() == typeof(DefaultRequest))
-            {
-                return ProcessDefaultRequest(request as DefaultRequest);
-            }
-            else if (request.GetType() == typeof(StatusRequest))
-            {
-                return ProcessStatusRequest(request as StatusRequest);
-            }
-            else
-            {
-                //throw new Exception("No se encontró el tipo de request.");
-                Console.WriteLine("No se encontró el tipo de request.");
-                return null;
-            }
-        }
+            CoinResponse response = null;
 
-        private StatusResponse ProcessStatusRequest(StatusRequest statusRequest)
-        {
-            throw new NotImplementedException();
+            for (int i = 0; i < maxRetries; i++)
+            {
+                try
+                {
+                    using (var stream = new FileStream(_config.LuaFilePath, FileMode.Append, FileAccess.Write, FileShare.None))
+                    using (var writer = new StreamWriter(stream, Encoding.UTF8))
+                    {
+                        writer.WriteLine(coinRequest.key);
+                    }
+
+                    response = new CoinResponse
+                    {
+                        id = coinRequest.id,
+                        result = true,
+                        message = $"Default request processed successfully after {i+1} tries."
+                    };
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep(20);
+                }
+            }
+
+            if (response == null)
+            {
+                response = new CoinResponse
+                {
+                    id = coinRequest.id,
+                    result = false,
+                    message = "Failed to process coin request after maximum retries."
+                };
+            }
+
+            return response;
         }
 
         private DefaultResponse ProcessDefaultRequest(DefaultRequest defaultRequest)
         {
-            throw new NotImplementedException();
+            var response = new DefaultResponse
+            {
+                id = defaultRequest.id,
+                result = true,
+                message = "Default request processed successfully."
+            };
+
+            return response;
         }
 
-        private CoinResponse ProcessCoinRequest(CoinRequest coinRequest)
+        private StatusResponse ProcessStatusRequest(StatusRequest statusRequest)
         {
-            throw new NotImplementedException();
+            var response = new StatusResponse
+            {
+                id = statusRequest.id,
+                version = $"{_config.Version}_{_config.Id}_{DateTime.Now.ToString()}"
+            };
+
+            return response;
         }
         #endregion
 
         #region Parsing
-        private IRabbitMqRequest ParseRequestMessage(string message)
-        {
-            if (message.StartsWith("coin"))
-            {
-                return JsonConvert.DeserializeObject<CoinRequest>(message.Replace("coin", ""));
-            }
-            else if (message.StartsWith("default"))
-            {
-                return JsonConvert.DeserializeObject<DefaultRequest>(message.Replace("default", ""));
-            }
-            else if (message.StartsWith("status"))
-            {
-                return JsonConvert.DeserializeObject<StatusRequest>(message.Replace("status", ""));
-            }
-            else {
-                //throw new Exception("No se encontró el tipo de request.");
-                Console.WriteLine("No se encontró el tipo de request.");
-                return null;
-            }
-        }
-
         private string ParseResponseMessage(IRabbitMqResponse response)
         {
             return JsonConvert.SerializeObject(response);
@@ -125,9 +168,14 @@ namespace HotelMiddleware.Arcade
             return _rabbitmq.Read(_topics);
         }
 
-        private void WriteRabbitMq(string message)
+        private void WriteRabbitMq(string topic, string message)
         {
-            //throw new NotImplementedException();
+            bool result = _rabbitmq.Write(topic, message);
+
+            if (!result)
+            {
+                Console.WriteLine("Failed to write message to RabbitMQ");
+            }
         }
         #endregion
     }

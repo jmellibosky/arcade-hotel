@@ -97,7 +97,6 @@ Content-Type: application/json
 Accept: application/json
 
 ###
-
-POST {{HotelAPI_HostAddress}}/api/movements/mqtt
-Content-Type: application/json
-Accept: application/json
+@topic = req.a01.coin
+@body = coin { id: 123, key: "Coin P1" }
+POST {{HotelAPI_HostAddress}}/api/movements/mqtt?topic={{topic}}&body={{body}}

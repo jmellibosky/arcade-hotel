@@ -2,3 +2,8 @@
 *.vsidx
 *.vsidx
 *.cache
+/middleware/obj
+*.editorconfig
+*.pdb
+/middleware/.vs
+/middleware/bin
